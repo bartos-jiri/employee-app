@@ -2,7 +2,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AppLayout } from "./AppLayout";
 import { ErrorPage } from "./ErrorPage";
 
-import { NewEmployee } from "../features/new-employee/NewEmployee";
+import { NewEmployeeForm } from "../features/new-employee/NewEmployeeForm";
+import { createEmployeeAction } from "../features/new-employee/actions";
+
 import { Dashboard } from "../features/dashboard/Dashboard";
 import { getEmployees } from "../features/dashboard/api";
 
@@ -21,7 +23,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/employees/new",
-        element: <NewEmployee />,
+        element: <NewEmployeeForm />,
+        action: createEmployeeAction,
       },
     ],
   },
