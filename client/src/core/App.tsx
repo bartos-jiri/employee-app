@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { RootLayout } from "./RootLayout";
+import { AppLayout } from "./AppLayout";
 import { ErrorPage } from "./ErrorPage";
 
 import { NewEmployee } from "../features/new-employee/NewEmployee";
@@ -11,7 +11,7 @@ import "./global.scss";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: <AppLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
