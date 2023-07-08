@@ -1,9 +1,17 @@
-import { useLoaderData } from "react-router-dom";
+import { EmployeeTable } from "./EmployeeTable";
+import { EmployeeGraphs } from "./EmployeeGraphs";
+
+import classes from "./Dashboard.module.scss";
 
 export const Dashboard: React.FC = () => {
-  const employees = useLoaderData();
-
-  console.log({ employees });
-
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <div className={`${classes.top} mb-3 d-flex`}>
+        <EmployeeTable />
+      </div>
+      <div>
+        <EmployeeGraphs />
+      </div>
+    </div>
+  );
 };

@@ -6,7 +6,6 @@
 @import "bootstrap/scss/utilities";
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/reboot";
-@import "bootstrap/scss/utilities/api";
 @import "bootstrap/scss/transitions";
 
 @import "bootstrap/scss/buttons";
@@ -16,3 +15,17 @@
 @import "bootstrap/scss/navbar";
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "cursor": (
+      property: cursor,
+      class: cursor,
+      responsive: true,
+      values: auto pointer grab,
+    )
+  )
+);
+
+@import "bootstrap/scss/utilities/api";
