@@ -6,7 +6,6 @@ export const createEmployeeAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
   const data = Object.fromEntries(formData) as unknown as Employee;
-  console.log({ formData, data });
 
   await createEmployee(data);
 
