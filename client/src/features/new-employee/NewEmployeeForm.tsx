@@ -1,10 +1,9 @@
-import Container from "react-bootstrap/Container";
 import F from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-router-dom";
 
 export const NewEmployeeForm: React.FC = () => (
-  <Container className="my-4 d-flex flex-column align-items-center">
+  <div className="d-flex flex-column align-items-center">
     <Form method="post">
       <h1 className="mb-4">Add New Employee</h1>
 
@@ -53,5 +52,5 @@ export const NewEmployeeForm: React.FC = () => (
         Submit
       </Button>
     </Form>
-  </Container>
+  </div>
 );
