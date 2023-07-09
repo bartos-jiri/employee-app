@@ -10,31 +10,26 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
+import { useVirtual } from "@tanstack/react-virtual";
 
 const columns: ColumnDef<Employee>[] = [
   {
     header: "Name",
     accessorKey: "name",
-    cell: (info) => info.getValue(),
-    footer: (props) => props.column.id,
   },
   {
     header: "Job Title",
     accessorKey: "jobTitle",
-    cell: (info) => info.getValue(),
-    footer: (props) => props.column.id,
   },
   {
     header: "Tenure",
     accessorKey: "tenure",
-    cell: (info) => info.getValue(),
-    footer: (props) => props.column.id,
+    size: 50,
   },
   {
     header: "Gender",
     accessorKey: "gender",
-    cell: (info) => info.getValue(),
-    footer: (props) => props.column.id,
+    size: 100,
   },
 ];
 
@@ -54,8 +49,29 @@ export const EmployeeTable: React.FC = () => {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  const tableContainerRef = React.useRef<HTMLDivElement>(null);
+
+  const { rows } = table.getRowModel();
+
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    overscan: 20,
+  });
+
+  const { virtualItems, totalSize } = rowVirtualizer;
+
+  const paddingTop = virtualItems.length > 0 ? virtualItems[0]?.start || 0 : 0;
+  const paddingBottom =
+    virtualItems.length > 0
+      ? totalSize - (virtualItems[virtualItems.length - 1]?.end || 0)
+      : 0;
+
   return (
-    <div className="flex-1 w-100 overflow-y-auto border">
+    <div
+      ref={tableContainerRef}
+      className="flex-1 w-100 overflow-y-auto border"
+    >
       <Table striped bordered hover>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -65,6 +81,7 @@ export const EmployeeTable: React.FC = () => {
                   key={header.id}
                   colSpan={header.colSpan}
                   className="border-start-0"
+                  style={{ width: header.getSize() }}
                 >
                   <div
                     className="cursor-pointer d-flex justify-content-between"
@@ -87,15 +104,28 @@ export const EmployeeTable: React.FC = () => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="border-start-0">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+          {paddingTop > 0 && (
+            <tr>
+              <td colSpan={4} style={{ height: `${paddingTop}px` }} />
             </tr>
-          ))}
+          )}
+          {virtualItems.map((virtualRow) => {
+            const row = rows[virtualRow.index];
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="border-start-0">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+          {paddingBottom > 0 && (
+            <tr>
+              <td colSpan={4} style={{ height: `${paddingBottom}px` }} />
+            </tr>
+          )}
         </tbody>
       </Table>
     </div>
