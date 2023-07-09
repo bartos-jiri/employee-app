@@ -17,7 +17,7 @@ export const GenderBar: React.FC = () => {
   return (
     <fieldset className="border p-2">
       <legend className="float-none w-auto px-2">Employees by Gender</legend>
-      <ResponsiveContainer aspect={1} width="100%" height="100%">
+      <ResponsiveContainer aspect={1}>
         <BarChart data={data}>
           <YAxis />
           {Object.keys(data[0]).map((key, index) => (

@@ -21,7 +21,7 @@ export const JobTitlePie: React.FC = () => {
     <fieldset className="border p-2">
       <legend className="float-none w-auto px-2">Employees by Job Title</legend>
 
-      <ResponsiveContainer aspect={1} width="100%" height="100%">
+      <ResponsiveContainer aspect={1}>
         <PieChart>
           <Pie
             dataKey="value"
