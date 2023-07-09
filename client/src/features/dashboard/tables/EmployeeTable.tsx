@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import { Employee } from "../../models/Employee";
+import { Employee } from "../../../models/Employee";
 import Table from "react-bootstrap/Table";
 import {
   ColumnDef,

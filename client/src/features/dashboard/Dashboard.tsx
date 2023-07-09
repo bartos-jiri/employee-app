@@ -1,5 +1,5 @@
-import { EmployeeTable } from "./EmployeeTable";
-import { EmployeeGraphs } from "./EmployeeGraphs/EmployeeGraphs";
+import { EmployeeTable } from "./tables/EmployeeTable";
+import { EmployeeGraphs } from "./graphs/EmployeeGraphs";
 
 import classes from "./Dashboard.module.scss";
 
