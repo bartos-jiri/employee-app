@@ -10,6 +10,7 @@ const withRouterDef = (
   options?: Partial<{
     path: RouteObject["path"];
     action: RouteObject["action"];
+    loader: RouteObject["loader"];
   }>
 ) => {
   const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const withRouterDef = (
       element,
       path: options?.path || "/",
       action: options?.action,
+      loader: options?.loader,
     },
   ]);
 
@@ -29,3 +31,9 @@ declare global {
 }
 
 global.withRouter = withRouterDef;
+
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));

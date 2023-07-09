@@ -10,21 +10,23 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { useVirtual } from "@tanstack/react-virtual";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 const columns: ColumnDef<Employee>[] = [
   {
     header: "Name",
     accessorKey: "name",
+    minSize: 270,
   },
   {
     header: "Job Title",
     accessorKey: "jobTitle",
+    minSize: 150,
   },
   {
     header: "Tenure",
     accessorKey: "tenure",
-    size: 50,
+    size: 90,
   },
   {
     header: "Gender",
@@ -53,18 +55,21 @@ export const EmployeeTable: React.FC = () => {
 
   const { rows } = table.getRowModel();
 
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
-    overscan: 20,
+  const rowVirtualizer = useVirtualizer({
+    getScrollElement: () => tableContainerRef.current,
+    count: rows.length,
+    estimateSize: () => 41,
+    overscan: 10,
   });
 
-  const { virtualItems, totalSize } = rowVirtualizer;
+  const { getVirtualItems, getTotalSize } = rowVirtualizer;
+
+  const virtualItems = getVirtualItems();
 
   const paddingTop = virtualItems.length > 0 ? virtualItems[0]?.start || 0 : 0;
   const paddingBottom =
     virtualItems.length > 0
-      ? totalSize - (virtualItems[virtualItems.length - 1]?.end || 0)
+      ? getTotalSize() - (virtualItems[virtualItems.length - 1]?.end || 0)
       : 0;
 
   return (
@@ -81,7 +86,9 @@ export const EmployeeTable: React.FC = () => {
                   key={header.id}
                   colSpan={header.colSpan}
                   className="border-start-0"
-                  style={{ width: header.getSize() }}
+                  style={{
+                    minWidth: header.getSize(),
+                  }}
                 >
                   <div
                     className="cursor-pointer d-flex justify-content-between"
@@ -112,9 +119,9 @@ export const EmployeeTable: React.FC = () => {
           {virtualItems.map((virtualRow) => {
             const row = rows[virtualRow.index];
             return (
-              <tr key={row.id}>
+              <tr key={row.id} style={{ height: virtualRow.size }}>
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="border-start-0">
+                  <td key={cell.id} className="border-start-0 text-nowrap">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
