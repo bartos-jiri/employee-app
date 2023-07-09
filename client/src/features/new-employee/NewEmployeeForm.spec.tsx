@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { NewEmployeeForm } from "./NewEmployeeForm";
 import { ActionFunctionArgs } from "react-router-dom";
 
-const submitHandler = vi.fn(async ({ request }: ActionFunctionArgs) =>
+const actionMock = vi.fn(async ({ request }: ActionFunctionArgs) =>
   Object.fromEntries(await request.formData())
 );
 
@@ -20,7 +20,7 @@ describe("NewEmployeeForm", () => {
   });
 
   it("submits the form with valid data", async () => {
-    render(global.withRouter(<NewEmployeeForm />, { action: submitHandler }));
+    render(global.withRouter(<NewEmployeeForm />, { action: actionMock }));
 
     const nameInput = screen.getByLabelText(/name/i);
     const jobTitleInput = screen.getByLabelText(/job title/i);
@@ -34,7 +34,7 @@ describe("NewEmployeeForm", () => {
     await userEvent.click(maleRadio);
     await userEvent.click(submitButton);
 
-    expect(submitHandler.mock.results[0].value).toEqual({
+    expect(actionMock.mock.results[0].value).toEqual({
       gender: "Male",
       jobTitle: "Developer",
       name: "John Doe",
